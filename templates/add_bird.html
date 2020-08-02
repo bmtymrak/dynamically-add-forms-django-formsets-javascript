@@ -6,11 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    {% for bird in birds %}
-        <p>{{bird.common_name}}: {{bird.scientific_name}}</p>
-    {% endfor %}
-
-    <form method="POST">
+    <form id="form-container" method="POST">
         {% csrf_token %}
         {{formset.management_form}}
         {% for form in formset %}
@@ -18,12 +14,29 @@
         {{form.as_p}}
         </div>
         {% endfor %}
-
-        <button type="submit">Add Birds</button>
+        <button id="add-more" type="button">Add More Forms</button>
+        <button type="submit">Create Birds</button>
     </form>
+    
 
     <script>
-        
+        let formNum = document.querySelectorAll(".bird-form").length-1 //Get the number of the last form on the page with zero-based indexing
+        let container = document.querySelector("#form-container")
+        let birdForm = document.querySelector(".bird-form")
+        let addButton = document.querySelector("#add-more")
+        let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
+        addButton.addEventListener('click', addForm)
+
+        function addForm(e){
+            e.preventDefault()
+            let newForm = birdForm.cloneNode(true) //Clone the bird form
+            let formRegex = RegExp(`form-(\\d){1}-`,'g') //Regex to find all instances of the form number
+            newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum+1}-`) //Update the new form to have the correct form number
+            
+            container.insertBefore(newForm, addButton) //Insert the new form at the end of the list of forms
+            formNum++ //Increment the form number
+            totalForms.setAttribute('value', `${formNum+1}`) //Increment the number of total forms in the form management
+        }
     </script>
     </body>
 </html>

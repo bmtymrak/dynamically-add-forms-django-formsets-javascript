@@ -7,4 +7,4 @@ class Bird(models.Model):
 
     class Meta:
         def __str__(self):
-            print(common_name)
+            return common_name   
