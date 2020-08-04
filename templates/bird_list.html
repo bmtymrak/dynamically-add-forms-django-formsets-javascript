@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Bird List</title>
 </head>
 <body>
+    <h1>Bird List</h1>
+    <a href='{% url "add_bird" %}'>Add bird</a>
     {% for bird in object_list %}
         <p>{{bird.common_name}}: {{bird.scientific_name}}</p>
     {% endfor %}
